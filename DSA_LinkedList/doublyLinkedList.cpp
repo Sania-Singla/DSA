@@ -39,7 +39,7 @@ int getLength (Node * &head) {
     return length;
 }
 
-
+ 
 void insertAtHead (Node * &head, Node * &tail, int d) {
     //empty list
     if(head == NULL) {

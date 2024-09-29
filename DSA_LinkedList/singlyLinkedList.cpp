@@ -34,9 +34,9 @@ void insertAtHead (Node * &head, Node * &tail, int d) {
     // point it to the head
     // move the head to newNode
     if(head == NULL) { 
-        Node* temp = new Node(d);
-        head = temp;
-        tail = temp;
+        Node* newNode = new Node(d);
+        head = newNode;
+        tail = newNode;
     }
     else {
         Node * newNode = new Node(d);
@@ -51,9 +51,9 @@ void insertAtTail (Node * &tail, Node * &head, int d) {
     // point it to the NULL(already due to constructor) & tail to newNode
     // move the tail to the newNode
     if(tail == NULL) {
-        Node* temp = new Node(d);
-        head = temp;
-        tail = temp;
+        Node* newNode = new Node(d);
+        head = newNode;
+        tail = newNode;
     }
     else {
         Node * newNode = new Node(d);
@@ -63,8 +63,8 @@ void insertAtTail (Node * &tail, Node * &head, int d) {
 }
 
 
-void insertAtPosition (Node * &head, Node * &tail, int position, int d) {
-    if(position == 1) {
+void insertAtPosition (Node * &head, Node * &tail, int p, int d) {
+    if(p == 1) {
         // insert at head
         insertAtHead(head, tail, d);
         return ;
@@ -75,34 +75,34 @@ void insertAtPosition (Node * &head, Node * &tail, int position, int d) {
     // create a new node
     Node * newNode = new Node(d);
 
-    // traverse till the node at position-1 
-    while (count < position - 1) {
+    // traverse till the node at p-1 
+    while (count < p - 1) {
         temp = temp -> next;
         count ++;
     }
 
-    // check if insert at end (position == length of the list or next == NULL)
+    // check if insert at end (p == length of the list or next == NULL)
     if(temp -> next == NULL) {
         insertAtTail(tail, head, d);    // or tail = newNode; because neeche wala code will also work for insert at tail
         return ;        
     }
 
-    // point the position-1 node to newNode and newNode to position+1 node
+    // point the p-1 node to newNode and newNode to p+1 node
     newNode -> next = temp -> next;
     temp -> next = newNode;
 }
 
 
-void deleteFromPosition (Node * & tail, Node * &head, int position) {
+void deleteFromPosition (Node * & tail, Node * &head, int p) {
     Node * temp = head;
-    if(position == 1) {
+    if(p == 1) {
         head = head -> next;
         temp -> next = NULL;
         delete temp;
     }
     else {
         int count = 1;
-        while(count < position - 1 ) {
+        while(count < p - 1 ) {
             temp = temp -> next;
             count ++;
         }
