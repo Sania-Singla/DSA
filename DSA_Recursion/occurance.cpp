@@ -1,7 +1,7 @@
 #include<iostream>
 using namespace std;
 
-// just like binary sort
+// just like binary sort   // ARRAY SHOULD BE SORTED
 int firstOcc(int arr[], int i, int j, int k) {
     int ans = -1;
     if(i<=j) {
@@ -44,9 +44,9 @@ void deleteOcc(int newArr[], int arr[],int k, int n) {
 }
 
 int main() {
-    int arr[10] = {1,2,3,5,5,5,5,5,6,3};
+    int arr[10] = {1,2,3,3,5,5,5,5,5,6};
     int n = 10;
-    int k = 5;
+    int k = 3;
     cout << "first occurance = " << firstOcc(arr, 0, n-1, k) << endl; 
     cout << "last occurance = " << lastOcc(arr, 0, n-1, k ) << endl; 
     int totalOcc = (lastOcc(arr, 0, n-1, k) - firstOcc(arr, 0, n-1, k) + 1);

@@ -2,7 +2,9 @@
 using namespace std;
 
 void sayDigits(string arr[], int n) {
-    if(n==0) return ;
+    if(n==0) {
+        return ;
+    }
     sayDigits(arr, n/10);
     cout << arr[n%10] << " ";
 }

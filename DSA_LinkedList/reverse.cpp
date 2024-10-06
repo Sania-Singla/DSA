@@ -58,7 +58,7 @@ void print(Node * head) {
 
 // recursive
 Node * reverse( Node * &head) {
-    if(head == NULL || head -> next == NULL) return head; // Only one element in the list, no need to reverse.
+    if(head -> next == NULL) return head; // Only one element in the list, no need to reverse.
     Node * chhotaHead = reverse(head -> next);
     head -> next -> next = head;   // can't do chottaHead->next = head; because chottaHead toh reversed list ka head ka abhi so ex: for last call the chhotaHead would be at 51 and we need to connect 200 to 119 now
     head -> next = NULL;

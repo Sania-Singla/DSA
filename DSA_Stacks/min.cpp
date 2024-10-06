@@ -1,80 +1,115 @@
-#include<iostream>
+#include <iostream>
 using namespace std;
-
 
 /**************************************************************************************************************************************************/
 /****************************************************************** MISTAKE ***********************************************************************/
 /**************************************************************************************************************************************************/
 
-
-class Stack {
-    public:
+class Stack
+{
+public:
     int top;
     int size;
     int *arr;
-    
-    Stack(int s) {
-        this -> size = s;
-        this -> top = -1;
-        this -> arr = new int[s];
+    int min;
+
+    Stack(int s)
+    {
+        this->size = s;
+        this->top = -1;
+        this->arr = new int[s];
+        this->min = INT16_MAX;
     }
 
-    void push(int e) {
-        if(top == this -> size - 1) {
+    void push(int e)
+    {
+        if (this->top == this->size)
+        {
             cout << "stack overflow" << endl;
+            return;
         }
-        else {
-            while(top != this -> size - 1) {
-                int temp[100] = {0};
-                int i=0;
-                if(this -> peek() > e) {
-                    arr[top++] = e;
-                }
-                else {
-                    while(this -> peek() > e) {
-                        temp[i++] = this -> pop();
-                    }
-                    arr[top++] = e;
-                    while(i>=0) {
-                        arr[top++] = temp[i--];
-                    }
-                }
+        else if (this->isEmpty())
+        {
+            this->min = e;
+            arr[++top] = e;
+        }
+        else
+        {
+            if (e < this->min)
+            {
+                arr[++top] = (2 * e - this->min);
+                this->min = e;
+            }
+            else
+            {
+                arr[++top] = e;
             }
         }
-    } 
+    }
 
-    int pop() {
-        if(top == -1) {
+    int pop()
+    {
+        if (this->isEmpty())
+        {
             cout << "stack underflow" << endl;
             return -1;
         }
-        else {
-            return arr[top--];
+        else
+        {
+            if (this->peek() > this->min)
+            {
+                return arr[top--];
+            }
+            else
+            {
+                int prevMin = min;
+                int val = (2 * prevMin - this->peek());
+                this->min = val;
+                top--;
+                return prevMin;
+            }
         }
     }
 
-    int peek() {
-         if(top == -1) {
+    bool isEmpty()
+    {
+        return top == -1 ? true : false;
+    }
+
+    int minimumElement()
+    {
+        return this->min; // O(1) time and space complexity
+    }
+
+    int peek()
+    {
+        if (this->isEmpty())
+        {
             cout << "stack underflow" << endl;
             return -1;
         }
-        else {
-            return arr[top];
+        else
+        {
+            if (arr[top] < min)
+            {
+                return min;
+            }
+            else
+                return arr[top];
         }
-    }
-
-    int min() {
-
     }
 };
 
-int main () {
+int main()
+{
     Stack s1(5);
-    s1.push(1);
     s1.push(2);
-    s1.push(3);
-    s1.push(4);
     s1.push(5);
+    s1.push(8);
+    s1.push(3);
+    s1.push(1);
 
-    s1.peek();
+    cout << s1.peek() << endl;
+s1.pop();
+    cout << s1.minimumElement();
 }

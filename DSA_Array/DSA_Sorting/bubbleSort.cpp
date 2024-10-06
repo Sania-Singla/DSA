@@ -21,7 +21,7 @@ void print(int arr[], int n) {
 
 // in bubble sort i is only used for rounds but in selection sort we do use arr[i] in swapping 
 // void bubbleSort(int arr[], int n) {
-//     for (int i = 0; i < n-2; i++) {  // more optimized then n-1
+//     for (int i = 0; i < n-1; i++) {  
 //         // for optimization if already sorted
 //         bool swapped = false;
 //         for (int j = 0; j < n-i-1; j++) {   // or if want to use n-i only then use i from 1->n

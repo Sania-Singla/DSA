@@ -5,9 +5,7 @@ bool isPallidrome(string s, int i, int j) {
     if(i>j) return true;
     else {
         if(s[i]!=s[j]) return false; 
-        i++;
-        j--;
-        return isPallidrome(s, i, j);
+        return isPallidrome(s, ++i, --j);
     }
 }
 

@@ -54,16 +54,16 @@ class Queue {
 
     void interleave () {
         Queue newQ(this -> size/2);
-        while(front != size/2) {
+        while(this -> front != this -> size/2) {
             int e = this -> pop();
             newQ.push(e);
         }
 
         // newQ.print();
         // this -> print();
-        rear = 0;
+        this -> rear = 0;
 
-        while(newQ.front != newQ.rear) {
+        while(newQ.front != newQ.size) {
             int e = newQ.pop();
             this -> push(e);
             e = this -> pop();

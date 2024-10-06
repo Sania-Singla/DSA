@@ -16,7 +16,7 @@ class Stack {
     }
 
     void push1(int e) {
-        if(top1 + 1 < top2) {    // or top2- top1 > 1    // also handled top1 < this -> size
+        if(top1 + 1 < top2) {    // or top2 - top1 > 1    // also handled top1 < this -> size
             arr[++top1] = e;
             return;
         }
@@ -76,7 +76,7 @@ class Stack {
     }
 
     bool isEmpty2() {
-        return top2 == this -> size + 1 ? true : false;
+        return top2 == this -> size ? true : false;
     }
 };
 
