@@ -150,30 +150,6 @@ int totalOcc(Node *head, int k)
 // MISTAKE
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // void deleteAllOcc(Node *&head, int k)
 // {
 //     Node *prev = NULL;

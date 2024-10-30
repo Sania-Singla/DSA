@@ -51,13 +51,13 @@ Node* reverseKGroups (Node * &head, int k) {
     Node * prev = NULL;
     Node * curr = head;
     Node * forward = head;
-    int count = 0;
-    while(count < k && curr != NULL) {
+    int i = 0;
+    while(i < k && curr != NULL) {
         forward = curr -> next;
         curr -> next = prev;
         prev = curr;
         curr = forward;
-        count ++;
+        i ++;
     }
     head -> next = reverseKGroups(curr , k);
     return prev;
