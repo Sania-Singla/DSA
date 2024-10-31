@@ -1,92 +1,77 @@
-// time complexity: unsorted O(n^2) & sorted O(n)
+// time complexity: unsorted O(n^2) without map but with map O(n) with S(n) & sorted O(n)
 // space complexity: both O(1)
 
-#include <iostream>
+#include <bits/stdc++.h>
+#include "./headers/node.h"
 using namespace std;
 
-class Node
-{
-public:
-    int data;
-    Node *next;
-    Node(int d)
-    {
-        this->data = d;
-        this->next = NULL;
-    }
-};
-
-void print(Node *&head)
-{
-    Node *temp = head;
-    if (head == NULL)
-    {
-        cout << "list is empty." << endl;
-        return;
-    }
-    while (temp != NULL)
-    {
-        cout << temp->data << " ";
-        temp = temp->next;
-    }
-    cout << endl;
-}
-
-void insertAtHead(Node *&head, int d)
-{
-    if (head == NULL)
-    {
-        Node *temp = new Node(d);
-        head = temp;
-    }
-    else
-    {
-        Node *newNode = new Node(d);
-        newNode->next = head;
-        head = newNode;
-    }
-}
-
 // if sorted list
-// void removeDuplicates (Node * &head) {
-//     if(head == NULL || head -> next == NULL) return;
-//     Node * curr = head;
-//     while(curr -> next != NULL) {
-//         if(curr -> data == curr -> next -> data) {
-//             Node * next_next = curr -> next -> next;
-//             Node * nodeToDelete = curr -> next;
-//             curr -> next = next_next;
-//             nodeToDelete -> next =  NULL;
-//             delete nodeToDelete;
-//         }
-//         else curr = curr -> next;
-//     }
-// }
-
-
-// wrong 
+void removeDuplicatesSorted(Node *&head)
+{
+    if (!head || !head->next)
+        return;
+    Node *curr = head;
+    while (curr)
+    {
+        if (curr->next && curr->data == curr->next->data)
+        {
+            Node *nodeToDelete = curr->next;
+            curr->next = nodeToDelete->next;
+            nodeToDelete->next = NULL;
+            delete nodeToDelete;
+        }
+        else
+        {
+            curr = curr->next;
+        }
+    }
+}
 
 // if not sorted
-void removeDuplicates(Node *head)
+void removeDuplicatesUnSorted(Node *&head)
 {
+    // Node *curr = head;
+    // while (curr)
+    // {
+    //     Node *temp = curr;
+    //     while (temp -> next)
+    //     {
+    //         if (curr->data == temp->next->data)
+    //         {
+    //             Node *nodeToDelete = temp->next;
+    //             temp->next = nodeToDelete->next;
+    //             nodeToDelete->next = NULL;
+    //             delete nodeToDelete;
+    //         }
+    //         else
+    //         {
+    //             temp = temp->next;
+    //         }
+    //     }
+    //     curr = curr->next;
+    // }
+
+    // O(n) but S(n) also
+    if (!head || !head->next)
+        return;
+    unordered_map<int, bool> visited;
+    Node *prev = NULL;
     Node *curr = head;
-    while (curr != NULL)
+
+    while (curr)
     {
-        Node *temp = curr->next;
-        while (temp != NULL)
+        if (visited[curr->data])
         {
-            if (curr->data == temp->data)
-            {
-                Node *next = temp->next;
-                curr->next = next;
-                temp->next = NULL;
-                delete temp;
-                temp = next;
-            }
-            else
-                temp = temp->next;
+            Node *nodeToDelete = curr;
+            prev->next = nodeToDelete->next;
+            delete nodeToDelete;
         }
-        curr = curr->next;
+        else
+        {
+            visited[curr->data] = true;
+            prev = curr;
+        }
+        curr = prev->next;
     }
 }
 
@@ -94,7 +79,7 @@ int main()
 {
     Node *head = NULL;
 
-    // sorted
+    // SORTED
     // insertAtHead(head, 4);
     // insertAtHead(head, 4);
     // insertAtHead(head, 3);
@@ -103,17 +88,18 @@ int main()
     // insertAtHead(head, 2);
     // insertAtHead(head, 2);
     // print(head);
+    // removeDuplicatesSorted(head);
+    // print(head);
 
-    // not sorted
-    // insertAtHead(head, 3);
-    insertAtHead(head, 1);
+    // NON-SORTED
+    insertAtHead(head, 3);
+    insertAtHead(head, 5);
     insertAtHead(head, 3);
     insertAtHead(head, 2);
     insertAtHead(head, 2);
-    insertAtHead(head, 1);
-    // insertAtHead(head, 2);
+    insertAtHead(head, 5);
+    insertAtHead(head, 2);
     print(head);
-
-    removeDuplicates(head);
+    removeDuplicatesUnSorted(head);
     print(head);
 }
