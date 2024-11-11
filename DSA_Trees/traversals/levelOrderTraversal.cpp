@@ -1,36 +1,12 @@
-#ifndef PRINT_TREE_H
-#define PRINT_TREE_H
-
 #include <iostream>
-#include "queue.h"
 #include <queue>
-#include "node.h"
+#include "../headerFiles/createBST.h"
+#include "../headerFiles/node.h"
 using namespace std;
 
-// iterative
-// void printUsingBFT(Node *startNode, int n)
-// {
-//     Queue q1(n);
-//     q1.enqueue(startNode);
-//     while (!q1.isEmpty())
-//     {
-//         startNode = q1.dequeue();
-//         cout << startNode->data << "  ";
+// OR BREADTH FIRST TRAVERSAL
 
-//         if (startNode->lc)
-//         {
-//             q1.enqueue(startNode->lc);
-//         }
-//         if (startNode->rc)
-//         {
-//             q1.enqueue(startNode->rc);
-//         }
-//     }
-//     cout << endl;
-// }
-
-// using STL queues
-void printUsingBFT(Node *root)
+void levelOrder_or_BFT(Node *root)
 {
     queue<Node *> q;
     q.push(root);
@@ -66,9 +42,9 @@ void printUsingBFT(Node *root)
     }
 }
 
-// recursive
-void printUsingBFT_recursive(Node * root) {
-    
+int main()
+{
+    vector<int> arr = {7, 10, 0, 12, 19, 1, 11, -1};
+    Node *root = createBST(arr);
+    levelOrder_or_BFT(root);
 }
-
-#endif

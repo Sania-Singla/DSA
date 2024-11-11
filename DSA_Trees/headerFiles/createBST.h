@@ -1,5 +1,5 @@
-#ifndef CREATE_TREE_H
-#define CREATE_TREE_H
+#ifndef CREATE_BST_H
+#define CREATE_BST_H
 
 #include <iostream>
 #include <vector>
@@ -35,7 +35,7 @@ void create(Node *root, int d)
     }
 }
 
-Node *createTree(vector<int> arr)
+Node *createBST(vector<int> arr)
 {
     int s = arr.size();
     Node *root = new Node(arr[0]);
