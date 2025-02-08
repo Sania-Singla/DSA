@@ -36,7 +36,7 @@ int partition(int *arr, int low, int high, int n)
         }
     }
     swap(arr[j], arr[low]);
-    print(arr, n);
+    // print(arr, n);
     return j;
 }
 
