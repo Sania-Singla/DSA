@@ -1,13 +1,14 @@
-// rotate the array by K units to the right
+// rotate the array by 'k' units to the right
 #include <iostream>
 #include <stack>
+#include <vector>
 using namespace std;
 
-void print(int *arr, int n)
+void print(const vector<int> &arr)
 {
-    for (int i = 0; i < n; i++)
+    for (int val : arr)
     {
-        cout << arr[i] << "  ";
+        cout << val << "\t";
     }
     cout << endl;
 }
@@ -19,9 +20,10 @@ void swap(int &a, int &b)
     b = c;
 }
 
-// O(n^2) (BAD)
-// void rotate(int *arr, int n, int k)
+// O(n^2)
+// void rotate(vector<int> &arr, int k)
 // {
+//     int n = arr.size();
 //     for (int j = 0; j < k; j++)
 //     {
 //         int i = n - 1;
@@ -33,7 +35,7 @@ void swap(int &a, int &b)
 //     }
 // }
 
-// O(n^2) but S(n) (WORSE)
+// O(n^2) & S(n)
 // void insertAtBottom(stack<int> &s, int val)
 // {
 //     if (s.empty())
@@ -50,8 +52,9 @@ void swap(int &a, int &b)
 //     }
 // }
 
-// void rotate(int *arr, int n, int k)
+// void rotate(vector<int> &arr, int k)
 // {
+//     int n = arr.size();
 //     stack<int> s;
 //     for (int i = 0; i < n; i++)
 //     {
@@ -73,8 +76,9 @@ void swap(int &a, int &b)
 // }
 
 // O(n) but S(n)
-// void rotate(int *arr, int n, int k)
+// void rotate(vector<int> &arr, int k)
 // {
+//     int n = arr.size();
 //     stack<int> s;
 //     for (int i = n - k; i < n; i++)
 //     {
@@ -93,8 +97,8 @@ void swap(int &a, int &b)
 //     }
 // }
 
-// O(n) (GREAT)
-void reverse(int *arr, int s, int e)
+// O(n)
+void reverse(vector<int> &arr, int s, int e)
 {
     int i = s, j = e;
     while (i < j)
@@ -103,19 +107,23 @@ void reverse(int *arr, int s, int e)
     }
 }
 
-void rotate(int *arr, int n, int k)
+void rotate(vector<int> &arr, int k)
 {
-    reverse(arr, 0, n - 1);
-    reverse(arr, k, n - 1);
-    reverse(arr, 0, k - 1);
+    int n = arr.size();
+    k = k % n;
+    if (k != 0)
+    {
+        reverse(arr, 0, n - 1);
+        reverse(arr, k, n - 1);
+        reverse(arr, 0, k - 1);
+    }
 }
 
 int main()
 {
-    int arr[] = {1, 2, 3, 4, 5};
+    vector<int> arr = {1, 2, 3, 4, 5};
     int k = 3;
-    int n = sizeof(arr) / sizeof(arr[0]);
-    print(arr, n);
-    rotate(arr, n, k % n); // when k == multiple of n the array is same
-    print(arr, n);
+    print(arr);
+    rotate(arr, k % arr.size()); // when k == multiple of 'n' the array is same
+    print(arr);
 }

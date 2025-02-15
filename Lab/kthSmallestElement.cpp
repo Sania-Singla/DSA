@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 
 void swap(int &a, int &b)
@@ -8,7 +9,7 @@ void swap(int &a, int &b)
     b = c;
 }
 
-void print(int *arr, int n)
+void print(const vector<int> &arr, int n)
 {
     for (int i = 0; i < n; i++)
     {
@@ -17,80 +18,87 @@ void print(int *arr, int n)
     cout << endl;
 }
 
-int partition(int *arr, int low, int high, int n)
+// O(n)
+int partition(vector<int> &nums, int s, int e)
 {
-    int i = low, j = high, key = arr[low];
+    // choosing first element as pivot
+    int i = s + 1, j = e, pivot = nums[s];
     while (i <= j)
     {
-        do
+        while (nums[i] < pivot)
         {
             i++;
-        } while (i < high && arr[i] < key);
-        do
+        }
+        while (nums[j] > pivot)
         {
             j--;
-        } while (j >= low && arr[j] > key);
-        if (i < j)
+        }
+        if (i <= j)
         {
-            swap(arr[i], arr[j]);
+            swap(nums[i++], nums[j--]); // prevents infinite loop
         }
     }
-    swap(arr[j], arr[low]);
-    // print(arr, n);
+    swap(nums[j], nums[s]);
     return j;
 }
 
-// int KthsmallestElement(int *arr, int n, int k)
-// {
-//     if (n == 1)
-//         return arr[0];
-//     int low = 0;
-//     int high = n - 1;
-//     int j;
-//     while (low <= high)
-//     {
-//         int j = partition(arr, low, high + 1);
-//         if (j == k - 1)
-//         {
-//             return arr[j];
-//         }
-//         else if (j < k)
-//         {
-//             low = j + 1;
-//         }
-//         else
-//         {
-//             high = j - 1;
-//         }
-//     }
-//     return arr[j];
-// }
-
-int KthsmallestElement(int *arr, int low, int high, int k, int n)
+// Recursive
+int KthsmallestElement(vector<int> &arr, int s, int e, int k)
 {
-    if (low == high)
-        return arr[low];
-    int j = partition(arr, low, high + 1, n);
-    if (j == k - 1)
+    if (s == e)
     {
-        return arr[j];
+        return arr[s];
     }
-    else if (j < k - 1)
+
+    int p = partition(arr, s, e);
+
+    if (p == k - 1)
     {
-        return KthsmallestElement(arr, j + 1, high, k, n);
+        return arr[p];
+    }
+    else if (p < k - 1)
+    {
+        return KthsmallestElement(arr, p + 1, e, k);
     }
     else
     {
-        return KthsmallestElement(arr, low, j - 1, k, n);
+        return KthsmallestElement(arr, s, p - 1, k);
     }
 }
 
+// Iterative
+// int KthsmallestElement(vector<int> &arr, int k)
+// {
+//      int n = arr.size();
+//     if (n == 1)
+//         return arr[0];
+//     int s = 0, e = n - 1, p;
+//     while (s <= e)
+//     {
+//         int p = partition(arr, s, e);
+//         if (p == k - 1)
+//         {
+//             return arr[p];
+//         }
+//         else if (p < k)
+//         {
+//             s = p + 1;
+//         }
+//         else
+//         {
+//             e = p - 1;
+//         }
+//     }
+//     return arr[p];
+// }
+
 int main()
 {
-    int arr[] = {1, 11, 12, 71, 9, 12, 4, 6, 28, 100};
-    int n = sizeof(arr) / sizeof(arr[0]);
+    // *distinct elements*
+    vector<int> arr = {1, 11, 12, 9, 12, 4, 6, 28, 71};
     int k = 7;
-    cout << KthsmallestElement(arr, 0, n - 1, k, n) << endl;
-    // top k elements
+    cout << KthsmallestElement(arr, 0, arr.size() - 1, k) << endl;
+
+    // 'k' smallest elements
     print(arr, k);
 }

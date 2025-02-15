@@ -1,10 +1,13 @@
+// space complexity: O(logn->n) due to recursive stack but else it is O(1)
 // time complexity: O(nlogn) (best & avg case)
 // worst case O(n^2)
-// space complexity: O(n) due to recursive stack (but else it is O(1))
+// mid element as pivot -> best case (already sorted in any order) O(nlogn)
+//                      -> worst case O(n^2)
+// any other element as pivot -> best case (pivot comes at mid always -> coincidental) O(nlogn)
+//                            -> worst case (already sorted in any order) O(n^2)
 
 #include <iostream>
 #include <vector>
-
 using namespace std;
 
 void swap(int &a, int &b)
@@ -14,6 +17,16 @@ void swap(int &a, int &b)
     b = c;
 }
 
+void print(const vector<int> &arr)
+{
+    for (int val : arr)
+    {
+        cout << val << "\t";
+    }
+    cout << endl;
+}
+
+// O(n)
 // int partition(vector<int> &arr, int s, int e)
 // {
 //     int pivot = arr[s], count = 0;
@@ -34,44 +47,30 @@ void swap(int &a, int &b)
 //     while (i < pivotIndex && j > pivotIndex)
 //     {
 //         if (arr[j] > pivot)
-//         {
 //             j--;
-//         }
 //         else if (arr[i] < pivot)
-//         {
 //             i++;
-//         }
 //         else
-//         {
 //             swap(arr[i++], arr[j--]);
-//         }
 //     }
 //     return pivotIndex;
 // }
 
+// O(n) ** works for distinct elements only **
 int partition(vector<int> &arr, int s, int e)
 {
-    // choose mid element as the pivot ( can use any element but better performance for mid element )
+    // choose mid element as the pivot
     int mid = s + ((e - s) / 2);
-
-    // loop from i:(s -> mid-1) & j:(e -> mid+1)
     int i = s, j = e, pivot = arr[mid];
     while (i < j)
     {
         if (arr[i] < pivot)
-        {
             i++;
-        }
         else if (arr[j] > pivot)
-        {
             j--;
-        }
         else
-        {
             swap(arr[i], arr[j]);
-        }
     }
-
     return i;
 }
 
@@ -79,22 +78,16 @@ void QS(vector<int> &arr, int s, int e)
 {
     if (s < e)
     {
-        int p = partition(arr, s, e);
-        cout << "pivot: " << p << endl;
-        QS(arr, s, p - 1);
-        QS(arr, p + 1, e);
+        int p = partition(arr, s, e); // O(n)
+        QS(arr, s, p - 1);            // T(n/2)
+        QS(arr, p + 1, e);            // T(n/2)
     }
 }
 
 int main()
 {
-    vector<int> arr = {1, 4, 7, 2, 9, 0, 3, 5, 8, 6};
+    // *repitive elements*
+    vector<int> arr = {5, 1, 1, 2, 0, 0};
     QS(arr, 0, arr.size() - 1);
-
-    for (int i = 0; i < arr.size(); i++)
-    {
-        cout << arr[i] << "\t";
-    }
-    cout << endl;
-    return 0;
+    print(arr);
 }

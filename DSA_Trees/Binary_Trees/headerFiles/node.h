@@ -8,9 +8,7 @@ class Node
 {
 public:
     int data;
-    Node *lc;
-    Node *rc;
-    Node *par;
+    Node *lc, *rc, *par;
 
     Node(int d)
     {

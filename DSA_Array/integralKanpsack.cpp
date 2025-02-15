@@ -1,6 +1,6 @@
 // an array of objects and its associated profit and weight array is given along with a bag(knapsack) of given capacity
 // we have to fill the bag with objects of total weight <= capacity and max profit
-// ** Remeber: the objects are NOT dividable which means u must take the complete weight given ex: washing machine, hence in the end the capacity may not be 0 **
+// ** Remember: the objects are NOT dividable which means u must take the complete weight given ex: washing machine, hence in the end the capacity may not be 0 **
 
 #include <iostream>
 #include <vector>
@@ -10,9 +10,9 @@ using namespace std;
 
 void print(const auto &arr)
 {
-    for (int i = 0; i < arr.size(); i++)
+    for (auto val : arr)
     {
-        cout << arr[i] << "\t";
+        cout << val << "\t";
     }
     cout << endl;
 }

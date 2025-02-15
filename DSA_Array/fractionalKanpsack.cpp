@@ -1,6 +1,6 @@
 // an array of objects and its associated profit and weight array is given along with a bag(knapsack) of given capacity
 // we have to fill the bag with objects of total weight <= capacity and max profit
-// ** Remeber: the objects are dividable which means u need not to take the complete weight given ex: vegetables **
+// ** Remember: the objects are dividable which means u need not to take the complete weight given ex: vegetables **
 
 #include <iostream>
 #include <vector>
@@ -10,9 +10,9 @@ using namespace std;
 
 void print(const auto &arr)
 {
-    for (int i = 0; i < arr.size(); i++)
+    for (auto val : arr)
     {
-        cout << arr[i] << "\t";
+        cout << val << "\t";
     }
     cout << endl;
 }
@@ -82,7 +82,7 @@ double FK(const vector<int> &objects, const vector<int> &profits, const vector<i
     return totalProfit;
 }
 
-// will increase the time complexity by 'n'
+// will add 'n' to the time complexity
 // double calculateProfit(const vector<double> &fractionsIncluded, const vector<int> &profits)
 // {
 //     double totalProfit = 0, n = fractionsIncluded.size();
@@ -95,9 +95,7 @@ double FK(const vector<int> &objects, const vector<int> &profits, const vector<i
 
 int main()
 {
-    vector<int> objects = {1, 2, 3, 4, 5, 6, 7};
-    vector<int> profits = {10, 5, 15, 7, 6, 18, 3};
-    vector<int> weights = {2, 3, 5, 7, 1, 4, 1};
+    vector<int> objects = {1, 2, 3, 4, 5, 6, 7}, profits = {10, 5, 15, 7, 6, 18, 3}, weights = {2, 3, 5, 7, 1, 4, 1};
     int n = objects.size(), capacity = 15;
     vector<double> fractionsIncluded(n, 0);
 

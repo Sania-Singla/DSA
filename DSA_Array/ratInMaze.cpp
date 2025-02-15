@@ -1,106 +1,96 @@
 #include <iostream>
 #include <vector>
+
 using namespace std;
 
-bool isSafeToMove(int x, int y, int m, int n, vector<vector<int>> mat, vector<vector<int>> visited)
+void print(const vector<string> &arr)
 {
-    if (x >= 0 && x < m && y >= 0 && y < n && mat[x][y] == 0 && visited[x][y] == 0)
+    for (string val : arr)
     {
-        return true;
+        cout << val << "\t";
     }
-    else
-    {
-        return false;
-    }
+    cout << endl;
 }
 
-void solve(int x, int y, int dx, int dy, int m, int n, vector<vector<int>> mat, vector<vector<int>> &visited, string & minPath, string &path)
+bool safeToMove(const vector<vector<int>> mat, int x, int y, vector<vector<int>> &visited)
+{
+    return (x >= 0 && y >= 0 && x < mat.size() && y < mat[0].size() && visited[x][y] != 1 && mat[x][y] != 1);
+}
+
+void ratInMaze(const vector<vector<int>> mat, int x, int y, const int dx, const int dy, vector<string> &possiblePaths, string &path, string &shortestPath, vector<vector<int>> &visited)
 {
     if (x == dx && y == dy)
     {
-        // ans.push_back(path);
-        if(minPath.empty() || path.length() < minPath.length()) {
-            minPath = path;
+        // you've reached the destination
+        possiblePaths.push_back(path);
+        if (path.length() < shortestPath.length() || shortestPath == "")
+        {
+            shortestPath = path;
         }
-        return;
     }
     else
     {
         visited[x][y] = 1;
-        // move Left
-        if (isSafeToMove(x, y + 1, m, n, mat, visited))
+
+        // move up (x-1, y)
+        if (safeToMove(mat, x - 1, y, visited))
         {
-            path.push_back('L');
-            solve(x, y, dx, dy, m, n, mat, visited, minPath, path);
-            path.pop_back();
+            path += 'U';
+            ratInMaze(mat, x - 1, y, dx, dy, possiblePaths, path, shortestPath, visited);
+            path.pop_back(); // backtracking
         }
-        // move Right
-        if (isSafeToMove(x, y - 1, m, n, mat, visited))
+        // move down (x+1, y)
+        if (safeToMove(mat, x + 1, y, visited))
         {
-            path.push_back('R');
-            solve(x, y, dx, dy, m, n, mat, visited, minPath, path);
-            path.pop_back();
+            path += 'D';
+            ratInMaze(mat, x + 1, y, dx, dy, possiblePaths, path, shortestPath, visited);
+            path.pop_back(); // backtracking
         }
-        // move Up
-        if (isSafeToMove(x + 1, y, m, n, mat, visited))
+        // move left (x, y-1)
+        if (safeToMove(mat, x, y - 1, visited))
         {
-            path.push_back('U');
-            solve(x, y, dx, dy, m, n, mat, visited, minPath, path);
-            path.pop_back();
+            path += 'L';
+            ratInMaze(mat, x, y - 1, dx, dy, possiblePaths, path, shortestPath, visited);
+            path.pop_back(); // backtracking
         }
-        // move Down
-        if (isSafeToMove(x - 1, y, m, n, mat, visited))
+        // move right (x, y+1)
+        if (safeToMove(mat, x, y + 1, visited))
         {
-            path.push_back('D');
-            solve(x, y, dx, dy, m, n, mat, visited, minPath, path);
-            path.pop_back();
+            path += 'R';
+            ratInMaze(mat, x, y + 1, dx, dy, possiblePaths, path, shortestPath, visited);
+            path.pop_back(); // backtracking
         }
-        visited[x][y] = 0;
+
+        visited[x][y] = 0; // backtracking
     }
 }
 
 int main()
 {
-    // order of matrix
-    int m, n;
-    cout << "enter order m * n" << endl;
-    cin >> m >> n;
-    // creating the matrix
-    vector<vector<int>> mat(m, vector<int>(n, 0));
-    for (int i = 0; i < m; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            cout << "enter element for j & i = " << j << "  " << i << endl;
-            cin >> mat[i][j];
-        }
-        cout << endl;
-    }
+    vector<vector<int>> mat = {
+        {0, 0, 1, 1},
+        {0, 0, 0, 1},
+        {0, 0, 0, 0},
+    };
 
-    vector<vector<int>> visited(m, vector<int>(n, 0));
-    for (int i = 0; i < m; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            visited[i][j] = 0;
-        }
-    }
-    // source
-    int x, y;
+    int x, y, dx, dy;
+    cout << "enter source x & y: ";
     cin >> x >> y;
-    // destination
-    int dx, dy;
+    cout << "enter destination dx & dy: ";
     cin >> dx >> dy;
-    if (mat[x][y] == 1)
+
+    if (mat[x][y] == 1 || mat[dx][dy] == 1)
     {
-        return 0;
+        return 0; // no possible path
     }
     else
     {
-        string path = "";
-      	string minPath = "";
-      	solve(x, y, dx, dy, m, n, mat, visited, minPath, path);
-      	// return the minimum path from ans (which contains all the possible paths)
-      	cout << "min path is :" << minPath << "number of steps are:"<<minPath.length()<<endl;
+        int m = mat.size(), n = mat[0].size();
+        string path = "", shortestPath = "";
+        vector<string> possiblePaths;
+        vector<vector<int>> visited(m, vector<int>(n, 0));
+        ratInMaze(mat, x, y, dx, dy, possiblePaths, path, shortestPath, visited);
+        print(possiblePaths);
+        cout << "Shortest path: " << shortestPath << ", number of steps required: " << shortestPath.length() << endl;
     }
 }

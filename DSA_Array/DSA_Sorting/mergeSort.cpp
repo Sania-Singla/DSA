@@ -1,5 +1,5 @@
 // time complexity: O(nlogn)
-// space complexity: O(n+logn) => n>>logn => O(n) (recursive) (logn is due to stack but n toh hoga hi due to recursion depth)
+// space complexity: O(n+logn) => n>>logn => O(n) (recursive) (logn is due to stack but 'n' toh hoga hi due to merging)
 
 #include <iostream>
 using namespace std;
