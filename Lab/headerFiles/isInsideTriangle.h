@@ -8,7 +8,7 @@
 
 using namespace std;
 
-int orientation(const Line &line, const Point p)
+int orientation(const Line &line, const Point &p)
 {
     Point p1 = line.p1, p2 = line.p2;
     vector<vector<int>> mat = {

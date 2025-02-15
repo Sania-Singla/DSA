@@ -34,6 +34,7 @@ vector<vector<int>> subMatrix(const vector<vector<int>> &mat, const int &row, co
     return subMat;
 }
 
+// T(n) = n(T(n-1) + O(n^2))
 // O(n*(n! + n^2)) => O(n*n!) => O(n!)
 int determinant(vector<vector<int>> &mat)
 {
