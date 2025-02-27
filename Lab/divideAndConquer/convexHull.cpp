@@ -1,8 +1,8 @@
 #include <iostream>
 #include <vector>
-#include "headerFiles/isInsideTriangle.h"
-#include "headerFiles/possibleTriangles.h"
-#include "headerFiles/structures.h"
+#include "../headerFiles/isInsideTriangle.h"
+#include "../headerFiles/possibleTriangles.h"
+#include "../headerFiles/structures.h"
 
 using namespace std;
 
@@ -16,7 +16,7 @@ void print(const vector<Point> &polygon)
 }
 
 // O(n^4)
-vector<Point> convexPolygon(const vector<Point> &points)
+vector<Point> convexHull(const vector<Point> &points)
 {
     vector<Point> polygon;
     vector<Triangle> triangles = possibleTriangles(points);
@@ -44,7 +44,7 @@ vector<Point> convexPolygon(const vector<Point> &points)
 int main()
 {
     vector<Point> points = {{3, 8}, {4, 10}, {7, 10}, {8, 6}, {1, 2}, {3, 5}, {1, 3}, {4, 6}, {3, 2}, {8, 4}};
-    vector<Point> polygon = convexPolygon(points); // final time complexity: O(n^4)
+    vector<Point> polygon = convexHull(points); // final time complexity: O(n^4)
     print(polygon);
     return 0;
 }

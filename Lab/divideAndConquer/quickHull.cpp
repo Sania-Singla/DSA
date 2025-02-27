@@ -1,12 +1,12 @@
 #include <iostream>
 #include <vector>
-#include <math.h>
+#include <algorithm>
 #include <climits>
-#include "headerFiles/isInsideTriangle.h"
-#include "headerFiles/possibleTriangles.h"
-#include "headerFiles/structures.h"
-#include "headerFiles/minMax.h"
-#include "headerFiles/getTriangleArea.h"
+#include "../headerFiles/isInsideTriangle.h"
+#include "../headerFiles/possibleTriangles.h"
+#include "../headerFiles/structures.h"
+#include "../headerFiles/minMax.h"
+#include "../headerFiles/getTriangleArea.h"
 
 using namespace std;
 
@@ -14,26 +14,28 @@ void print(const vector<Point> &polygon)
 {
     for (const Point &point : polygon)
     {
-        cout << "(" << point.x << ", " << point.y << ") ";
+        cout << "(" << point.x << "," << point.y << ") ";
     }
     cout << endl;
 }
 
 // O(n)
-void partition(const vector<Point> &points, int &minIdx, int &maxIdx)
+void partition(const vector<Point> &points, Point &min, Point &max)
 {
     vector<int> x;
+    int minIdx, maxIdx;
     for (const Point &p : points)
     {
         x.push_back(p.x);
     }
     minMax(x, minIdx, maxIdx);
+    min = points[minIdx];
+    max = points[maxIdx];
 }
 
 // O(n)
-void divideRegions(const vector<Point> &points, Point min, Point max, vector<Point> &regionX, vector<Point> &regionY)
+void divideRegions(const vector<Point> &points, const Line &line, vector<Point> &regionX, vector<Point> &regionY)
 {
-    Line line(min, max);
     for (const Point &p : points)
     {
         if (orientation(line, p) > 0)
@@ -48,10 +50,9 @@ void divideRegions(const vector<Point> &points, Point min, Point max, vector<Poi
 }
 
 // O(n)
-void eliminateInteriorPoints(vector<Point> &region, Point &p1, Point &p2, Point &p3)
+vector<Point> eliminateInteriorPoints(const vector<Point> &region, const Triangle &triangle)
 {
     vector<Point> newRegion;
-    Triangle triangle(p1, p2, p3);
     for (const Point &p : region)
     {
         if (!isInside(triangle, p)) // O(1)
@@ -59,7 +60,7 @@ void eliminateInteriorPoints(vector<Point> &region, Point &p1, Point &p2, Point 
             newRegion.push_back(p);
         }
     }
-    region = newRegion;
+    return newRegion;
 }
 
 // O(n)
@@ -79,7 +80,7 @@ Point getMaxAreaPoint(const vector<Point> &region, const Point &p1, const Point 
     return maxAreaPoint;
 }
 
-// O()
+// T(n) = 2T(n/2) + O(n)
 void solve(vector<Point> &region, Point &min, Point &max, vector<Point> &polygon)
 {
     if (!region.empty())
@@ -87,9 +88,11 @@ void solve(vector<Point> &region, Point &min, Point &max, vector<Point> &polygon
         Point maxAreaPoint = getMaxAreaPoint(region, min, max); // O(n)
         polygon.push_back(maxAreaPoint);
 
-        cout << "max area point with partition (" << min.x << ", " << min.y << ") & (" << max.x << ", " << max.y << ") is: (" << maxAreaPoint.x << ", " << maxAreaPoint.y << ")" << endl;
+        cout << "max area point with partition (" << min.x << "," << min.y << ") & (" << max.x << "," << max.y << ") is: (" << maxAreaPoint.x << "," << maxAreaPoint.y << ")" << endl;
 
-        eliminateInteriorPoints(region, min, max, maxAreaPoint); // O(n)
+        // eliminate interior points, although unnecessary bs region chota ho jayega for further processing
+        Triangle triangle(min, max, maxAreaPoint);
+        region = eliminateInteriorPoints(region, triangle); // O(n)
 
         vector<Point> leftRegion, rightRegion;
 
@@ -111,12 +114,13 @@ void solve(vector<Point> &region, Point &min, Point &max, vector<Point> &polygon
         cout << "right Region: ";
         print(rightRegion);
 
-        solve(leftRegion, min, maxAreaPoint, polygon);
-        solve(rightRegion, maxAreaPoint, max, polygon);
+        solve(leftRegion, min, maxAreaPoint, polygon);  // T(n/2)
+        solve(rightRegion, maxAreaPoint, max, polygon); // T(n/2)
     }
 }
 
-vector<Point> convexPolygon(const vector<Point> &points)
+// O()
+vector<Point> quickHull(const vector<Point> &points)
 {
     if (points.size() <= 3)
     {
@@ -127,25 +131,27 @@ vector<Point> convexPolygon(const vector<Point> &points)
         vector<Point> polygon;
 
         // partition
-        int maxIdx, minIdx;
-        partition(points, minIdx, maxIdx);
+        Point min, max;
+        partition(points, min, max);               // O(n)
+        polygon.insert(polygon.end(), {min, max}); // or .push_back() twice
 
-        Point left = points[minIdx], right = points[maxIdx];
-        polygon.push_back(left);
-        polygon.push_back(right);
+        cout << "partition is: (" << min.x << "," << min.y << ") (" << max.x << "," << max.y << ")" << endl;
 
-        // divide regions
+        // divide regions X & Y
         vector<Point> regionX, regionY;
-        divideRegions(points, left, right, regionX, regionY);
+        Line line(min, max);
+        divideRegions(points, line, regionX, regionY); // O(n)
 
         cout << "region X: ";
         print(regionX);
         cout << "region Y: ";
         print(regionY);
 
-        // eliminate interior points
-        solve(regionX, left, right, polygon);
-        solve(regionY, left, right, polygon);
+        // proceed
+        cout << "processing with region X:" << endl;
+        solve(regionX, min, max, polygon); // T(n/2)
+        cout << "processing with region Y:" << endl;
+        solve(regionY, max, min, polygon); // because orientation got opposite so min & max orientation wise changed // T(n/2)
 
         return polygon;
     }
@@ -153,8 +159,19 @@ vector<Point> convexPolygon(const vector<Point> &points)
 
 int main()
 {
-    vector<Point> points = {{3, 8}, {4, 10}, {7, 10}, {8, 6}, {1, 2}, {3, 5}, {1, 3}, {4, 6}, {3, 2}, {8, 4}};
-    vector<Point> polygon = convexPolygon(points);
+    vector<Point> points = {
+        {1, 2},
+        {1, 3},
+        {3, 5},
+        {3, 8},
+        {4, 6},
+        {4, 10},
+        {7, 10},
+        {3, 2},
+        {8, 6},
+        {8, 4},
+    };
+    vector<Point> polygon = quickHull(points); // O()
     cout << "convex polygon: ";
     print(polygon);
     return 0;

@@ -57,21 +57,45 @@ void print(const vector<int> &arr)
 // }
 
 // O(n) ** works for distinct elements only **
-int partition(vector<int> &arr, int s, int e)
+// int partition(vector<int> &arr, int s, int e)
+// {
+//     // choose mid element as the pivot
+//     int mid = s + ((e - s) / 2);
+//     int i = s, j = e, pivot = arr[mid];
+//     while (i < j)
+//     {
+//         if (arr[i] < pivot)
+//             i++;
+//         else if (arr[j] > pivot)
+//             j--;
+//         else
+//             swap(arr[i], arr[j]);
+//     }
+//     return i;
+// }
+
+// O(n) works for repetitive elements as well
+int partition(vector<int> &nums, int s, int e)
 {
-    // choose mid element as the pivot
-    int mid = s + ((e - s) / 2);
-    int i = s, j = e, pivot = arr[mid];
-    while (i < j)
+    int i = s + 1, j = e, pivot = nums[s];
+    // O(n)
+    while (i <= j)
     {
-        if (arr[i] < pivot)
+        while (i <= e && nums[i] < pivot)
+        {
             i++;
-        else if (arr[j] > pivot)
+        }
+        while (j >= s && nums[j] > pivot)
+        {
             j--;
-        else
-            swap(arr[i], arr[j]);
+        }
+        if (i <= j)
+        {
+            swap(nums[i++], nums[j--]); // prevents infinite loop
+        }
     }
-    return i;
+    swap(nums[j], nums[s]);
+    return j;
 }
 
 void QS(vector<int> &arr, int s, int e)
@@ -86,7 +110,7 @@ void QS(vector<int> &arr, int s, int e)
 
 int main()
 {
-    // *repitive elements*
+    // *repetitive elements*
     vector<int> arr = {5, 1, 1, 2, 0, 0};
     QS(arr, 0, arr.size() - 1);
     print(arr);
