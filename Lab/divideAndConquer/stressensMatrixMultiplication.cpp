@@ -105,7 +105,7 @@ vector<vector<int>> stressen(const vector<vector<int>> &mat1, const vector<vecto
         }
 
         // recursion (compute the 7 products)
-        // 7 * T(n/2)
+        // 7 * T(n/2) + 10 * O((n/2)^2) => O(n^2)
         vector<vector<int>> P = stressen(addMatrices(A, D), addMatrices(E, H));
         vector<vector<int>> Q = stressen(addMatrices(C, D), E);
         vector<vector<int>> R = stressen(A, subMatrices(F, H));
@@ -115,7 +115,7 @@ vector<vector<int>> stressen(const vector<vector<int>> &mat1, const vector<vecto
         vector<vector<int>> V = stressen(subMatrices(B, D), addMatrices(G, H));
 
         // add the products (compute the 4 sums)
-        // 4 * O((n/2)^2) => O(n^2)
+        // 8 * O((n/2)^2) => O(n^2)
         vector<vector<int>> s00 = addMatrices(subMatrices(addMatrices(P, S), T), V);
         vector<vector<int>> s01 = addMatrices(R, T);
         vector<vector<int>> s10 = addMatrices(Q, S);

@@ -13,10 +13,13 @@ void print(const auto &arr)
     cout << endl;
 }
 
+// O(n^2)
 void SSSP(const int &source, const int &n, vector<int> &dist, vector<string> &path, const vector<vector<int>> &cost)
 {
     vector<bool> visited(n, false);
-    for (int i = 0; i < n; i++)
+
+    // intialize the dist with the direct distances from source
+    for (int i = 0; i < n; i++) // O(n)
     {
         dist[i] = cost[source][i];
         if (cost[source][i] != INT_MAX)
@@ -30,20 +33,25 @@ void SSSP(const int &source, const int &n, vector<int> &dist, vector<string> &pa
     }
     visited[source] = true;
 
-    for (int j = 1; j < n; j++)
+    for (int j = 1; j < n; j++) // O(n)
     {
-        int min = INT_MAX, u = -1;
-        for (int i = 0; i < n; i++)
+        // get minimum path vertex (u) and set its visited to true
+        int u = -1;
+        for (int i = 0; i < n; i++) // O(n)
         {
-            if (dist[i] < min && !visited[i])
+            if (dist[i] < dist[u] && !visited[i])
             {
-                min = dist[i];
                 u = i;
             }
         }
+        if (u == -1) // no more reachable nodes
+        {
+            break;
+        }
         visited[u] = true;
 
-        for (int i = 0; i < n; i++)
+        // now update the dist with the optimial path through source -> min -> ...
+        for (int i = 0; i < n; i++) // O(n)
         {
             if (!visited[i] && cost[u][i] != INT_MAX && dist[i] > dist[u] + cost[u][i]) // we are explicitly checking for infinite case because it causes integer overflow (wraps to INT_MIN) when i add something in max possible integer: dist[i] > dist[u] + cost[u][i]
             {
@@ -57,11 +65,10 @@ void SSSP(const int &source, const int &n, vector<int> &dist, vector<string> &pa
 int main()
 {
     // directed & weighted graph's adjacency matrix (cost)
-    //   A B C D
-    // A * * * *
-    // B * * * *
-    // C * * * *
-    // D * * * *
+    //   A B C ...
+    // A * * * ...
+    // B * * * ...
+    // C * * * ...
     vector<vector<int>> cost = {
         {0, 5, 1, INT_MAX},
         {INT_MAX, 0, 7, 4},
@@ -69,7 +76,7 @@ int main()
         {3, INT_MAX, INT_MAX, 0},
     };
 
-    int n = cost.size(), source = 0;
+    int n = cost.size(), source = 2;
     vector<int> dist(n);
     vector<string> path(n);
 
