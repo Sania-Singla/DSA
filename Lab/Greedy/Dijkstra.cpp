@@ -14,14 +14,15 @@ void print(const auto &arr)
 }
 
 // O(n^2)
-void SSSP(const int &source, const int &n, vector<int> &dist, vector<string> &path, const vector<vector<int>> &cost)
+void SSSP(const vector<vector<int>> &cost, const int &source, const int &n, vector<int> &dist, vector<string> &path)
 {
     vector<bool> visited(n, false);
 
-    // intialize the dist with the direct distances from source
+    // intialize dist[] with direct distances from source to all nodes
     for (int i = 0; i < n; i++) // O(n)
     {
         dist[i] = cost[source][i];
+        // add paths to path[]
         if (cost[source][i] != INT_MAX)
         {
             path[i] = to_string(source) + ">" + to_string(i);
@@ -33,6 +34,7 @@ void SSSP(const int &source, const int &n, vector<int> &dist, vector<string> &pa
     }
     visited[source] = true;
 
+    // choose min from n-1 each time in from dist
     for (int j = 1; j < n; j++) // O(n)
     {
         // get minimum path vertex (u) and set its visited to true
@@ -70,6 +72,7 @@ int main()
     // B * * * ...
     // C * * * ...
     vector<vector<int>> cost = {
+        // weights
         {0, 5, 1, INT_MAX},
         {INT_MAX, 0, 7, 4},
         {INT_MAX, INT_MAX, 0, 6},
@@ -80,7 +83,7 @@ int main()
     vector<int> dist(n);
     vector<string> path(n);
 
-    SSSP(source, n, dist, path, cost);
+    SSSP(cost, source, n, dist, path);
     print(dist);
     print(path);
 }

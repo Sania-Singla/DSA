@@ -98,6 +98,8 @@ int partition(vector<int> &nums, int s, int e)
     return j;
 }
 
+// T(n) = 2T(n/2) + O(n)
+// T(n) = nlogn
 void QS(vector<int> &arr, int s, int e)
 {
     if (s < e)

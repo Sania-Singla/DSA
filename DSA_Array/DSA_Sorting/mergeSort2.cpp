@@ -58,10 +58,11 @@ void MS(vector<int> &arr, int s, int e)
         merge(arr, ans, mid); // O(n)
 
         // copy ans to arr: O(n)
-        for (int i = s; i < ans.size(); i++)
-        {
-            arr[i] = ans[i];
-        }
+        // for (int i = s; i < ans.size(); i++)
+        // {
+        //     arr[i] = ans[i];
+        // }
+        arr = ans;
     }
 }
 

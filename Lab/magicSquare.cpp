@@ -62,7 +62,7 @@ int main()
 
     vector<vector<int>> magicSq(n, vector<int>(n, 0)); // Initialize the matrix with 0
 
-    /* ⭐ can start from mid of 1st and last row or col the logic will change when moving down/left/right/up instead of diagonally on filled or both out of bound cases */
+    /* ⭐ can start from mid of 1st and last row/col the logic will change when moving down/left/right/up instead of diagonally on filled or both out of bound cases */
     // Start at the middle col & first row
     int row = 0, col = n / 2;
     magicSq[row][col] = 1;
