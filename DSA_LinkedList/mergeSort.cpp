@@ -88,8 +88,7 @@ Node *merge(Node *&head1, Node *&head2)
     if (!head2)
         return head1;
 
-    Node *head = NULL;
-    Node *tail = NULL;
+    Node *head = NULL, *tail = NULL;
 
     // merge
     while (head1 && head2)
@@ -131,7 +130,7 @@ Node *mergeSort(Node *head)
         Node *mid = middle(head);
         Node *head1 = head;
         Node *head2 = mid->next;
-        mid->next = NULL;
+        mid->next = NULL; // to make them disjoint
 
         // left part
         head1 = mergeSort(head1);

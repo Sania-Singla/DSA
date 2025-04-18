@@ -91,11 +91,10 @@ int precedence(char c)
 
 string convertToPostfix(string infix)
 {
-    int i = 0;
     int l = infix.length();
     Stack s(l);
     string postfix;
-    while (i < l)
+    for (int i = 0; i < l; i++)
     {
         if (infix[i] == '(')
         {
@@ -107,7 +106,7 @@ string convertToPostfix(string infix)
             {
                 postfix += s.pop();
             }
-            s.pop();
+            s.pop(); // pop '('
         }
         else if (infix[i] == '+' || infix[i] == '-' || infix[i] == '*' || infix[i] == '/')
         {
@@ -128,7 +127,6 @@ string convertToPostfix(string infix)
         {
             postfix += infix[i];
         }
-        i++;
     }
     // pop any remaning elements in the stack
     while (!s.isEmpty())

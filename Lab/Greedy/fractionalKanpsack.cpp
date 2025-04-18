@@ -17,12 +17,14 @@ void print(const auto &arr)
     cout << endl;
 }
 
-void calculateProfitByWeight(const vector<int> &profits, const vector<int> &weights, vector<double> &profitByWeight)
+vector<double> calculateProfitByWeight(const vector<int> &profits, const vector<int> &weights)
 {
+    vector<double> profitByWeight(profits.size());
     for (int i = 0; i < weights.size(); i++)
     {
         profitByWeight[i] = double(profits[i]) / weights[i];
     }
+    return profitByWeight;
 }
 
 // find kth max value
@@ -48,11 +50,7 @@ double FK(const vector<int> &objects, const vector<int> &profits, const vector<i
     int n = objects.size();
     double totalProfit = 0;
 
-    vector<double> profitByWeight(n, 0);
-    calculateProfitByWeight(profits, weights, profitByWeight);
-
-    cout << "Profit/Weight ratio of objects: ";
-    print(profitByWeight);
+    vector<double> profitByWeight = calculateProfitByWeight(profits, weights);
 
     vector<bool> ingoredIndices(n, false);
 
@@ -82,17 +80,6 @@ double FK(const vector<int> &objects, const vector<int> &profits, const vector<i
     return totalProfit;
 }
 
-// will add 'n' to the time complexity
-// double calculateProfit(const vector<double> &fractionsIncluded, const vector<int> &profits)
-// {
-//     double totalProfit = 0, n = fractionsIncluded.size();
-//     for (int i = 0; i < n; i++)
-//     {
-//         totalProfit += fractionsIncluded[i] * profits[i];
-//     }
-//     return totalProfit;
-// }
-
 int main()
 {
     vector<int> objects = {1, 2, 3, 4, 5, 6, 7}, profits = {10, 5, 15, 7, 6, 18, 3}, weights = {2, 3, 5, 7, 1, 4, 1};
@@ -100,7 +87,6 @@ int main()
     vector<double> fractionsIncluded(n, 0);
 
     double maxProfit = FK(objects, profits, weights, fractionsIncluded, capacity);
-    // double maxProfit = calculateProfit(fractionsIncluded, profits);
 
     cout << "Fractions of objects included: ";
     print(fractionsIncluded);

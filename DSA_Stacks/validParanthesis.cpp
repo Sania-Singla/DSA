@@ -73,10 +73,9 @@ public:
     bool validParenthesis(string s)
     {
         int l = s.length();
-        int i = 0;
         if (l % 2 != 0)
             return false;
-        while (i < l)
+        for (int i = 0; i < l; i++)
         {
             if (s[i] == '{' || s[i] == '(' || s[i] == '[')
             {
@@ -95,7 +94,6 @@ public:
                     return false;
                 }
             }
-            i++;
         }
         if (this->peek() == '0')
             return true;

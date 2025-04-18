@@ -18,7 +18,6 @@ class Stack {
     void push1(int e) {
         if(top1 + 1 < top2) {    // or top2 - top1 > 1    // also handled top1 < this -> size
             arr[++top1] = e;
-            return;
         }
         else {
             cout << "stack1 overflow" << endl;
@@ -28,7 +27,6 @@ class Stack {
     void push2(int e) {
         if (top2 - 1 > top1) {   // or top2 - top1 > 1    // also handled top2 < 0 
             arr[--top2] = e;
-            return;
         }
         else {
             cout << "stack2 overflow" << endl;
@@ -84,7 +82,6 @@ int main() {
     Stack * s1 = new Stack(5);
     s1 -> push1(1);
     s1 -> push1(2);
-
     s1 -> push2(5);
     s1 -> push2(4);
     s1 -> push2(3);

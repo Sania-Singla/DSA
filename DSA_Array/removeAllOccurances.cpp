@@ -17,10 +17,10 @@ void print(int *arr, int n)
     cout << endl;
 }
 
-int removeElement(int *nums, int s, int val)
+int removeElement(int *nums, int size, int val)
 {
     int i = 0, j = 0;
-    while (i < s)
+    while (i < size)
     {
         if (nums[i] == val)
         {
@@ -39,9 +39,9 @@ int removeElement(int *nums, int s, int val)
 
 int main()
 {
-    int arr[8] = {0,1,2,2,3,0,4,2};
+    int arr[8] = {0, 1, 2, 2, 3, 0, 4, 2};
     print(arr, 8);
-    int j = removeElement(arr, 8, 2) ;
+    int j = removeElement(arr, 8, 2);
     cout << j << endl;
     print(arr, j);
 }

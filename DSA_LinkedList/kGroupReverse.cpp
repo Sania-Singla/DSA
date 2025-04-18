@@ -45,21 +45,21 @@ void print(Node *head)
     cout << endl;
 }
 
-Node* reverseKGroups (Node * &head, int k) {
-    if(head == NULL || head -> next == NULL || k==1) return head;
-    Node * temp = head;
-    Node * prev = NULL;
-    Node * curr = head;
-    Node * forward = head;
+Node *reverseKGroups(Node *&head, int k)
+{
+    if (head == NULL || head->next == NULL || k == 1)
+        return head;
+    Node *temp = head, *prev = NULL, *curr = head, *forward = head;
     int i = 0;
-    while(i < k && curr != NULL) {
-        forward = curr -> next;
-        curr -> next = prev;
+    while (i < k && curr != NULL)
+    {
+        forward = curr->next;
+        curr->next = prev;
         prev = curr;
         curr = forward;
-        i ++;
+        i++;
     }
-    head -> next = reverseKGroups(curr , k);
+    head->next = reverseKGroups(curr, k);
     return prev;
 }
 

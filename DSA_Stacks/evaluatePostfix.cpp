@@ -50,52 +50,22 @@ public:
     }
 };
 
-// int evaluatePostfix(string postfix, int l) {
-//     Stack s2(l);
-//     for(int i = 0; i < l; i++) {
-//         char c = postfix[i];
-
-//         if(c!='*' && c!='/' && c!='+' && c!='-') {
-//             s2.push(c - '0');
-//         }
-//         else {
-//             // Pop two operands
-//             int operand2 = s2.pop();
-//             int operand1 = s2.pop();
-
-//             // Perform the operation
-//             int result;
-//             switch(c) {
-//                 case '+': result = operand1 + operand2; break;
-//                 case '-': result = operand1 - operand2; break;
-//                 case '*': result = operand1 * operand2; break;
-//                 case '/': result = operand1 / operand2; break;
-//                 default: cout << "Invalid operator" << endl; return -1;
-//             }
-//             // Push the result back to the stack
-//             s2.push(result);
-//         }
-//     }
-//     // The final result will be at the top of the stack
-//     return s2.pop();
-// }
-
 int evaluatePostfix(string postfix)
 {
     int l = postfix.length();
     Stack s(l);
     int ans;
-    int i = 0;
-    while (i < l)
+    for (int i = 0; i < l; i++)
     {
         if (postfix[i] != '+' && postfix[i] != '-' && postfix[i] != '*' && postfix[i] != '/')
         {
+            // operand
             s.push(postfix[i] - '0');
         }
         else
         {
-            int opr2 = s.pop();
-            int opr1 = s.pop();
+            // operator
+            int opr2 = s.pop(), opr1 = s.pop();
             switch (postfix[i])
             {
             case '+':
@@ -126,7 +96,6 @@ int evaluatePostfix(string postfix)
             }
             s.push(ans);
         }
-        i++;
     }
     return s.pop();
 }
@@ -135,11 +104,7 @@ int main()
 {
     string postfix = "27+3*2-5/";
     int ans;
-    // int l = postfix.length();
-
-    // ans = evaluatePostfix(postfix,l);
     ans = evaluatePostfix(postfix);
     cout << "ans:" << ans << endl;
-
     return 0;
 }

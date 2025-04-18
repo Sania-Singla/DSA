@@ -30,7 +30,7 @@ void insertAtTail(Node *&head, Node *&tail, int d)
     return;
 }
 
-void print(Node *&head)
+void print(Node *head)
 {
     Node *temp = head;
     while (temp != NULL)
@@ -39,139 +39,73 @@ void print(Node *&head)
         temp = temp->next;
     }
     cout << endl;
-    return;
 }
 
-// delete all occurances
-void deleteAllOcc(Node * &head, int k) {
-    Node * prev = NULL;
-    Node * curr = head;
-    while(curr != NULL) {
-        if(curr -> data == k) {
-            Node* toDelete = curr;
-            curr = curr -> next;
-            if(prev != NULL) prev -> next = curr;
-            toDelete -> next = NULL;
+// delete all occurrences
+void deleteAllOcc(Node *&head, int k)
+{
+    while (head != NULL && head->data == k)
+    {
+        Node *toDelete = head;
+        head = head->next;
+        delete toDelete;
+    }
+
+    Node *prev = NULL, *curr = head;
+    while (curr != NULL)
+    {
+        if (curr->data == k)
+        {
+            Node *toDelete = curr;
+            curr = curr->next;
+            prev->next = curr;
             delete toDelete;
         }
-        else {
+        else
+        {
             prev = curr;
-            curr = curr -> next;
+            curr = curr->next;
         }
     }
 }
 
 int firstOcc(Node *head, int k)
 {
-    if (head == NULL)
-        return -1;
-    else if (head->next == NULL)
+    int index = 0;
+    while (head != NULL)
     {
         if (head->data == k)
-            return 0;
-        else
-            return -1;
+            return index;
+        head = head->next;
+        index++;
     }
-    else
-    {
-        int count = 0;
-        Node *temp = head;
-        while (temp != NULL)
-        {
-            if (temp->data == k)
-            {
-                return count;
-            }
-            count++;
-            temp = temp->next;
-        }
-        return -1;
-    }
+    return -1;
 }
 
 int lastOcc(Node *head, int k)
 {
-    if (head == NULL)
-        return -1;
-    else if (head->next == NULL)
+    int i = 0, lastIndex = -1;
+    while (head != NULL)
     {
         if (head->data == k)
-            return 0;
-        else
-            return -1;
+            lastIndex = i;
+        head = head->next;
+        i++;
     }
-    else
-    {
-        int count = -1;
-        int i = 0;
-        Node *temp = head;
-        while (temp != NULL)
-        {
-            if (temp->data == k)
-            {
-                count = i;
-            }
-            i++;
-            temp = temp->next;
-        }
-        return count;
-    }
+    return lastIndex;
 }
 
 int totalOcc(Node *head, int k)
 {
-    if (head == NULL)
-        return 0;
-    else if (head->next == NULL)
+    int count = 0;
+    while (head != NULL)
     {
         if (head->data == k)
-        {
-            return 1;
-        }
-        else
-            return 0;
+            count++;
+        head = head->next;
     }
-    else
-    {
-        Node *temp = head;
-        int count = 0;
-        while (temp != NULL)
-        {
-            if (temp->data == k)
-                count++;
-            temp = temp->next;
-        }
-        return count;
-    }
+    return count;
 }
-
-
-
-// MISTAKE
-
-
-// void deleteAllOcc(Node *&head, int k)
-// {
-//     Node *prev = NULL;
-//     Node *curr = head;
-//     while (curr != NULL)
-//     {
-//         if (curr->data == k)
-//         {
-//             Node *temp = curr;
-//             curr = curr->next;
-//             if (prev != NULL)
-//                 prev->next = curr;
-//             temp->next = NULL;
-//             delete temp;
-//         }
-//         else
-//         {
-//             prev = curr;
-//             curr = curr->next;
-//         }
-//     }
-// }
 
 int main()
 {
@@ -189,13 +123,7 @@ int main()
     insertAtTail(head, tail, 19);
     print(head);
 
-    int k = 10;
-    // int total = totalOcc(head, k);
-    // cout << "total occurances: " << total << endl;
-
-    // cout << "after deletion list becomes: " << endl;
-    // deleteOcc(head, k);
-    // print(head);
+    int k = 14;
 
     int first = firstOcc(head, k);
     cout << "first occ index: " << first << endl;
@@ -203,6 +131,7 @@ int main()
     cout << "last occ index: " << last << endl;
     int total = totalOcc(head, k);
     cout << "total occs: " << total << endl;
+
     deleteAllOcc(head, k);
     print(head);
 }
