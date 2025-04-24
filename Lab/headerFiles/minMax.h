@@ -14,6 +14,7 @@ void print(vector<int> x)
     }
     cout << endl;
 }
+
 // Divide & Conquer
 // T(n) = 2T(n/2) + c
 // O(n)
