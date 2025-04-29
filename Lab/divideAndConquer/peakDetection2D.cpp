@@ -60,5 +60,5 @@ int main()
 
     vector<int> ans = {0, 0};
     peak(matrix, 0, colNum - 1, ans);
-    cout << "row" << ans[0] << "col" << ans[1];
+    cout << "peak found at: row = " << ans[0] << " col = " << ans[1];
 }

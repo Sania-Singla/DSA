@@ -3,8 +3,6 @@
 
 using namespace std;
 
-int c = 0;
-
 void print(const vector<int> &arr)
 {
     for (int val : arr)
@@ -26,43 +24,34 @@ bool canPlace(int k, int i, vector<int> x)
     return true;
 }
 
-void NQ(int k, vector<int> &x, bool &done)
+void NQ(int k, vector<int> &x)
 {
     int n = x.size();
     if (k < n)
     {
         for (int i = 0; i < n; i++)
         {
-            if (done)
-            {
-                break;
-            }
-
-            cout << "k: " << k << endl;
-            c++;
+            // cout << "k: " << k << endl;
             if (canPlace(k, i, x))
             {
-                cout << "i: " << i << endl;
+                // cout << "i: " << i << endl;
                 x[k] = i;
                 if (k == n - 1)
                 {
                     cout << "GOT A SOLUTION: ";
                     print(x);
-                    done = true; // we only need one solution
+                    // exit(0); // can't use return;
                 }
-                NQ(k + 1, x, done);
+                NQ(k + 1, x);
             }
+            // cout << "B" << endl;
         }
-        cout << "B" << endl;
     }
 }
 
 int main()
 {
     int n = 4;
-    c = 0;
-    bool done = false;
     vector<int> x(n);
-    NQ(0, x, done);
-    cout << "Number of iterations: " << c << endl;
+    NQ(0, x);
 }

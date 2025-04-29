@@ -32,22 +32,23 @@ void FC(int k, vector<vector<int>> rooms, int m, vector<int> &x)
     {
         for (int i = 0; i < m; i++)
         {
-            cout << "k: " << k << ' ';
+            // cout << "k: " << k << ' ';
 
             if (canColor(k, i, x, rooms))
             {
-                cout << "i: " << i << ' ';
+                // cout << "i: " << i << ' ';
 
                 x[k] = i;
                 if (k == n - 1)
                 {
                     cout << "GOT A SOLUTION: ";
                     print(x);
+                    // exit(0);
                 }
                 FC(k + 1, rooms, m, x);
             }
         }
-        cout << "B" << endl;
+        // cout << "B" << endl;
     }
 }
 
