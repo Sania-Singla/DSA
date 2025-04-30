@@ -52,7 +52,7 @@ void SSSP(const vector<vector<int>> &cost, const int &source, const int &n, vect
         }
         visited[u] = true;
 
-        // now update the dist with the optimial path through source -> min -> ...
+        // now update the dist with the optimal path through source -> min -> ...
         for (int i = 0; i < n; i++) // O(n)
         {
             if (!visited[i] && cost[u][i] != INT_MAX && dist[i] > dist[u] + cost[u][i]) // we are explicitly checking for infinite case because it causes integer overflow (wraps to INT_MIN) when i add something in max possible integer: dist[i] > dist[u] + cost[u][i]

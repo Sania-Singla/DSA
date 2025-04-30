@@ -116,23 +116,23 @@ int main()
     // C * * * ...
     vector<vector<int>> cost = {
         // connected
-        // {0, 28, INT_MAX, INT_MAX, INT_MAX, 10, INT_MAX},
-        // {28, 0, 16, INT_MAX, INT_MAX, INT_MAX, 14},
-        // {INT_MAX, 16, 0, 12, INT_MAX, INT_MAX, INT_MAX},
-        // {INT_MAX, INT_MAX, 12, 0, 22, INT_MAX, 18},
-        // {INT_MAX, INT_MAX, INT_MAX, 22, 0, 25, 24},
-        // {10, INT_MAX, INT_MAX, INT_MAX, 25, 0, INT_MAX},
-        // {INT_MAX, 14, INT_MAX, 18, 24, INT_MAX, 0},
+        {0, 28, INT_MAX, INT_MAX, INT_MAX, 10, INT_MAX},
+        {28, 0, 16, INT_MAX, INT_MAX, INT_MAX, 14},
+        {INT_MAX, 16, 0, 12, INT_MAX, INT_MAX, INT_MAX},
+        {INT_MAX, INT_MAX, 12, 0, 22, INT_MAX, 18},
+        {INT_MAX, INT_MAX, INT_MAX, 22, 0, 25, 24},
+        {10, INT_MAX, INT_MAX, INT_MAX, 25, 0, INT_MAX},
+        {INT_MAX, 14, INT_MAX, 18, 24, INT_MAX, 0},
 
         // disconnected
-        {0, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX},
-        {INT_MAX, 0, 3, 6, 5, INT_MAX, INT_MAX, INT_MAX},
-        {INT_MAX, 3, 0, INT_MAX, 4, INT_MAX, INT_MAX, INT_MAX},
-        {INT_MAX, 6, INT_MAX, 0, 7, INT_MAX, INT_MAX, INT_MAX},
-        {INT_MAX, 5, 4, 7, 0, INT_MAX, INT_MAX, INT_MAX},
-        {INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, 0, 3, 1},
-        {INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, 3, 0, 2},
-        {INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, 1, 2, 0},
+        // {0, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX},
+        // {INT_MAX, 0, 3, 6, 5, INT_MAX, INT_MAX, INT_MAX},
+        // {INT_MAX, 3, 0, INT_MAX, 4, INT_MAX, INT_MAX, INT_MAX},
+        // {INT_MAX, 6, INT_MAX, 0, 7, INT_MAX, INT_MAX, INT_MAX},
+        // {INT_MAX, 5, 4, 7, 0, INT_MAX, INT_MAX, INT_MAX},
+        // {INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, 0, 3, 1},
+        // {INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, 3, 0, 2},
+        // {INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, 1, 2, 0},
     };
 
     int n = cost.size(), weight = 0;
