@@ -4,32 +4,21 @@
 
 using namespace std;
 
-void print(vector<int> arr)
+int NOS(vector<vector<int>> graph)
 {
-    for (int val : arr)
+    int k = 1, currNode = 0, n = graph.size();
+    while (currNode < n - 1)
     {
-        cout << val << " ";
-    }
-    cout << endl;
-}
-
-pair<int, vector<int>> MSP(vector<vector<int>> graph, int n)
-{
-    vector<int> fdist(n, INT_MAX), path(n, -1);
-    fdist[n - 1] = 0; // destination
-
-    for (int i = n - 2; i >= 0; i--)
-    {
-        for (int j = i + 1; j < n; j++) // if j = 0 -> n still will give answer but waste of iterations from 0 -> i since connection to next stage not backwards
+        for (int i = 0; i < n; i++)
         {
-            if (i != j && graph[i][j] != INT_MAX && graph[i][j] + fdist[j] < fdist[i])
+            if (currNode != i && graph[currNode][i] != INT_MAX)
             {
-                fdist[i] = graph[i][j] + fdist[j];
-                path[i] = j;
+                k++, currNode = i;
+                break;
             }
         }
     }
-    return {fdist[0], path};
+    return k;
 }
 
 int main()
@@ -49,10 +38,7 @@ int main()
         {INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, INT_MAX, 0},
     };
 
-    pair<int, vector<int>> result = MSP(graph, graph.size());
-    int minCost = result.first;
-    vector<int> path = result.second;
-    cout << "minimum cost = " << minCost << endl;
-    print(path);
+    int n = NOS(graph);
+    cout << "number of stages = " << n << endl;
     return 0;
 }

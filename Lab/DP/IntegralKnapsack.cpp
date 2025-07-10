@@ -4,31 +4,54 @@
 
 using namespace std;
 
-int knapsack(int W, vector<int> wt, vector<int> val, int n)
+void print(vector<int> arr)
 {
-    int dp[n + 1][W + 1];
-
-    for (int i = 0; i <= n; i++)
+    for (int val : arr)
     {
-        for (int w = 0; w <= W; w++)
+        cout << val << " ";
+    }
+    cout << endl;
+}
+
+// O(n*C)
+int knapsack(int C, vector<int> weights, vector<int> profits, int n)
+{
+    vector<vector<int>> dp(n + 1, vector<int>(C + 1, 0));
+
+    for (int i = 1; i <= n; i++)
+    {
+        for (int w = 1; w <= C; w++)
         {
-            if (i == 0 || w == 0)
-                dp[i][w] = 0;
-            else if (wt[i - 1] <= w)
-                dp[i][w] = max(dp[i - 1][w], val[i - 1] + dp[i - 1][w - wt[i - 1]]);
+            if (weights[i - 1] <= w)
+            {
+                dp[i][w] = max(dp[i - 1][w], profits[i - 1] + dp[i - 1][w - weights[i - 1]]);
+            }
             else
+            {
                 dp[i][w] = dp[i - 1][w];
+            }
         }
     }
 
-    return dp[n][W];
+    // tracing back
+    int w = C;
+    vector<int> selectedItems(n, 0);
+    for (int i = n; i > 0 && w > 0; i--)
+    {
+        if (dp[i][w] != dp[i - 1][w])
+        {
+            selectedItems[i - 1] = 1; // Item was included
+            w -= weights[i - 1];      // Reduce capacity
+        }
+    }
+
+    print(selectedItems);
+    return dp[n][C];
 }
 
 int main()
 {
-    vector<int> val = {60, 100, 120};
-    vector<int> wt = {10, 20, 30};
-    int W = 50;
-
-    cout << knapsack(W, wt, val, val.size()) << endl;
+    vector<int> profits = {60, 100, 120}, weights = {10, 20, 30};
+    int C = 50;
+    cout << knapsack(C, weights, profits, profits.size()) << endl;
 }

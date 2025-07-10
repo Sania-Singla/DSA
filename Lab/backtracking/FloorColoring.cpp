@@ -25,9 +25,8 @@ bool canColor(int k, int i, vector<int> x, vector<vector<int>> rooms)
     return true;
 }
 
-void FC(int k, vector<vector<int>> rooms, int m, vector<int> &x)
+void FC(int k, vector<vector<int>> rooms, int m, vector<int> &x, int n)
 {
-    int n = rooms.size();
     if (k < n)
     {
         for (int i = 0; i < m; i++)
@@ -45,7 +44,7 @@ void FC(int k, vector<vector<int>> rooms, int m, vector<int> &x)
                     print(x);
                     // exit(0);
                 }
-                FC(k + 1, rooms, m, x);
+                FC(k + 1, rooms, m, x, n);
             }
         }
         // cout << "B" << endl;
@@ -62,7 +61,7 @@ int main()
         {0, 1, 1, 0, 0},
         {1, 0, 1, 0, 0},
     };
-    int m = 3;                   // number of colors
-    vector<int> x(rooms.size()); // index => room number & value => color assigned
-    FC(0, rooms, m, x);
+    int m = 3, n = rooms.size(); // m = number of colors
+    vector<int> x(n);            // index => room number & value => color assigned
+    FC(0, rooms, m, x, n);
 }

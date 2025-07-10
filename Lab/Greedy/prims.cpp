@@ -52,12 +52,12 @@ void prims(const vector<vector<int>> &cost, const int &n, vector<vector<int>> &t
 {
     vector<int> near(n, 0); // we can't say near = 0 means visited and don't further process it because for some vertex its near could be 0 too so there could have been a conflict
 
-    // find the minimum weighted (costed) edge
+    // find the minimum weighted edge
     vector<int> edge = minWeightedEdge(cost); // O(n^2)
     int k = edge[0], l = edge[1];
 
     if (k == -1 || l == -1)
-    {
+    { // all are INT_MAX
         cout << "Graph is disconnected, No MST possible." << endl;
         tree.clear();
         return;
@@ -68,7 +68,7 @@ void prims(const vector<vector<int>> &cost, const int &n, vector<vector<int>> &t
     near[k] = -1, near[l] = -1;
     weight = cost[k][l];
 
-    // initialize rest of the near array with respect to k & l
+    // initialize rest of the near array with respect to k & l  ( 'i' k nearest kon hai among k & l)
     for (int i = 0; i < n; i++) // O(n)
     {
         if (near[i] != -1)

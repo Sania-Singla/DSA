@@ -2,47 +2,46 @@
 // space complexity: O(1)
 
 #include <iostream>
+#include <vector>
 using namespace std;
 
 void swap(int &a, int &b)
 {
-    int temp;
-    temp = a;
+    int c = a;
     a = b;
-    b = temp;
+    b = c;
 }
 
-void print(int arr[], int n)
+void print(vector<int> arr)
 {
-    for (int i = 0; i < n; i++)
+    for (int val : arr)
     {
-        cout << arr[i] << " ";
+        cout << val << " ";
     }
     cout << endl;
 }
 
-void selectionSort(int arr[], int n)
+void selectionSort(vector<int> &arr, int n)
 {
     for (int i = 0; i < n - 1; i++)
     {
-        int minIndex = i;
+        int minIdx = i;
 
         for (int j = i + 1; j < n; j++)
         {
-            if (arr[j] < arr[minIndex])
+            if (arr[j] < arr[minIdx])
             {
-                minIndex = j;
+                minIdx = j;
             }
         }
 
-        swap(arr[minIndex], arr[i]);
+        swap(arr[minIdx], arr[i]);
     }
 }
 
 int main()
 {
-    int arr[5] = {100, 301, 98, 21, 57};
-    int n = sizeof(arr) / sizeof(arr[0]);
-    selectionSort(arr, n);
-    print(arr, n);
+    vector<int> arr = {100, 301, 98, 21, 57};
+    selectionSort(arr, arr.size());
+    print(arr);
 }

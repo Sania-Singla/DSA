@@ -17,6 +17,7 @@ void print(const auto &arr)
 void SSSP(const vector<vector<int>> &cost, const int &source, const int &n, vector<int> &dist, vector<string> &path)
 {
     vector<bool> visited(n, false);
+    visited[source] = true;
 
     // intialize dist[] with direct distances from source to all nodes
     for (int i = 0; i < n; i++) // O(n)
@@ -32,9 +33,8 @@ void SSSP(const vector<vector<int>> &cost, const int &source, const int &n, vect
             path[i] = "Unreachable";
         }
     }
-    visited[source] = true;
 
-    // choose min from n-1 each time in from dist
+    // choose min from dist => n-1 times
     for (int j = 1; j < n; j++) // O(n)
     {
         // get minimum path vertex (u) and set its visited to true

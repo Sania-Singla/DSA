@@ -8,73 +8,88 @@
 
 using namespace std;
 
-void print(const auto &arr)
+class Item
 {
-    for (auto val : arr)
+public:
+    int id, wt, pf;
+    double ratio, fraction = 0;
+    Item(int id, int wt, int pf) : id(id), wt(wt), pf(pf)
     {
-        cout << val << "\t";
+        ratio = double(pf) / wt;
+    }
+};
+
+void print(vector<Item> items)
+{
+    for (auto item : items)
+    {
+        cout << to_string(item.id) + "=" + to_string(item.fraction) << " ";
     }
     cout << endl;
 }
 
-vector<double> calculateProfitByWeight(const vector<int> &profits, const vector<int> &weights)
+void swap(Item &a, Item &b)
 {
-    vector<double> profitByWeight(profits.size());
-    for (int i = 0; i < weights.size(); i++)
-    {
-        profitByWeight[i] = double(profits[i]) / weights[i];
-    }
-    return profitByWeight;
+    Item c = a;
+    a = b;
+    b = c;
 }
 
-// find kth max value
-int max(const vector<double> &arr, vector<bool> &ignoredIndices)
+int partition(vector<Item> &items, int s, int e)
 {
-    int maxIndex = -1;
-    double maxVal = -1;
+    int i = s + 1, j = e;
+    Item pivot = items[s];
 
-    for (int i = 0; i < arr.size(); i++)
+    while (i <= j)
     {
-        if (!ignoredIndices[i] && arr[i] > maxVal)
+        while (i <= e && items[i].ratio > pivot.ratio)
         {
-            maxVal = arr[i];
-            maxIndex = i;
+            i++;
+        }
+        while (j >= s && items[j].ratio < pivot.ratio)
+        {
+            j--;
+        }
+        if (i <= j)
+        {
+            swap(items[i++], items[j--]);
         }
     }
-
-    return maxIndex;
+    swap(items[j], items[s]);
+    return j;
 }
 
-double FK(const vector<int> &objects, const vector<int> &profits, const vector<int> &weights, vector<double> &fractionsIncluded, int capacity)
+void QS(vector<Item> &items, int s, int e)
 {
-    int n = objects.size();
+    if (s <= e)
+    {
+        int p = partition(items, s, e);
+        QS(items, s, p - 1);
+        QS(items, p + 1, e);
+    }
+}
+
+double FK(vector<Item> &items, int capacity)
+{
     double totalProfit = 0;
 
-    vector<double> profitByWeight = calculateProfitByWeight(profits, weights);
+    // sort based on p/w (descending order)
+    QS(items, 0, items.size() - 1);
 
-    vector<bool> ingoredIndices(n, false);
-
-    while (capacity > 0)
+    for (Item &item : items)
     {
-        int maxIndex = max(profitByWeight, ingoredIndices);
-        if (maxIndex == -1)
+        if (item.wt <= capacity)
         {
-            break; // no more objects
-        }
-
-        ingoredIndices[maxIndex] = true;
-
-        if (weights[maxIndex] <= capacity)
-        {
-            fractionsIncluded[maxIndex] = 1;
-            totalProfit += profits[maxIndex];
-            capacity -= weights[maxIndex];
+            item.fraction = 1;
+            totalProfit += item.pf;
+            capacity -= item.wt;
         }
         else
         {
-            fractionsIncluded[maxIndex] = double(capacity) / weights[maxIndex];
-            totalProfit += fractionsIncluded[maxIndex] * profits[maxIndex];
+            item.fraction = double(capacity) / item.wt;
+            totalProfit += item.fraction * item.pf;
             capacity = 0;
+            break;
         }
     }
     return totalProfit;
@@ -82,15 +97,17 @@ double FK(const vector<int> &objects, const vector<int> &profits, const vector<i
 
 int main()
 {
-    vector<int> objects = {1, 2, 3, 4, 5, 6, 7}, profits = {10, 5, 15, 7, 6, 18, 3}, weights = {2, 3, 5, 7, 1, 4, 1};
-    int n = objects.size(), capacity = 15;
-    vector<double> fractionsIncluded(n, 0);
+    vector<Item> items = {
+        {1, 2, 10},
+        {2, 3, 5},
+        {3, 5, 15},
+        {4, 7, 7},
+    };
+    int capacity = 15;
 
-    double maxProfit = FK(objects, profits, weights, fractionsIncluded, capacity);
+    double maxProfit = FK(items, capacity);
 
-    cout << "Fractions of objects included: ";
-    print(fractionsIncluded);
+    print(items);
+
     cout << "The maximum profit possible is: " << maxProfit << endl;
-
-    return 0;
 }

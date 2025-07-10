@@ -38,8 +38,7 @@ void peak(vector<vector<int>> matrix, int s, int e, vector<int> &ans)
     }
     else
     {
-        ans[0] = targetRow;
-        ans[1] = midCol;
+        ans[0] = targetRow, ans[1] = midCol;
         return;
     }
 }

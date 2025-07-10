@@ -1,36 +1,55 @@
-#include <iostream>
 #include <vector>
+#include <iostream>
 #include <climits>
-#include <algorithm>
 
 using namespace std;
 
+void print(vector<vector<int>> arr)
+{
+    for (vector<int> row : arr)
+    {
+        for (int val : row)
+        {
+            cout << val << " ";
+        }
+        cout << endl;
+    }
+    cout << endl;
+}
+
+// O(n^3)
 int MCM(vector<int> dim, int n)
 {
-    vector<vector<int>> table(n, vector<int>(n, 0));
+    vector<vector<int>> C(n, vector<int>(n, 0));
+    vector<vector<int>> S(n, vector<int>(n, 0));
 
-    for (int l = 2; l < n; l++) // l = chain length
+    for (int d = 1; d < n - 1; d++) // denotes the difference between two matrix dimensions
     {
-        for (int i = 0; i < n - l; i++)
+        for (int i = 1; i < n - d; i++) // i value needed to make j = i+d;
         {
-            int j = i + l;
-            table[i][j] = INT_MAX;
+            int j = i + d;
 
-            for (int k = i + 1; k < j; k++)
+            int min = INT_MAX;
+            for (int k = i; k < j; k++) // to vary k value to denote diff. parenthesis
             {
-                int q = table[i][k] + table[k][j] + dim[i] * dim[k] * dim[j];
-                table[i][j] = min(table[i][j], q);
+                int q = C[i][k] + C[k + 1][j] + dim[i - 1] * dim[k] * dim[j];
+                if (q < min)
+                {
+                    min = q;
+                    S[i][j] = k;
+                }
             }
+            C[i][j] = min;
         }
     }
 
-    return table[0][n - 1];
+    print(C);
+    print(S);
+    return C[1][n - 1];
 }
 
 int main()
 {
-    vector<int> dim = {1, 2, 3, 4}; // means matrices: A1(1x2), A2(2x3), A3(3x4)
-    cout << "The minimum number of multiplications to be performed = "
-         << MCM(dim, dim.size()) << endl;
-    return 0;
+    vector<int> dim = {3, 2, 4, 2, 5};
+    cout << "minimum number of multiplications performed = " << MCM(dim, dim.size()) << endl;
 }

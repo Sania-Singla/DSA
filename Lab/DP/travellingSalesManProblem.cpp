@@ -1,9 +1,11 @@
 #include <iostream>
 #include <climits>
+#include <cstring> // For memset
 
 using namespace std;
 
-const int N = 4, INF = 1e9;
+const int N = 4;
+const int INF = 1e9;
 
 int graph[N][N] = {
     {0, 5, 9, 8},
@@ -11,35 +13,44 @@ int graph[N][N] = {
     {9, 7, 0, 4},
     {8, 6, 4, 0}};
 
-int dp[1 << N][N];
+int dp[1 << N][N]; // DP table for memoization
 
-int tsp(int mask, int pos)
+int tsp(int visited, int current_city)
 {
-    if (mask == (1 << N) - 1)
-        return graph[pos][0];
-    if (dp[mask][pos] != -1)
-        return dp[mask][pos];
-    int ans = INF;
-    for (int city = 0; city < N; city++)
+    // Base case: all cities visited, return to start
+    if (visited == (1 << N) - 1)
     {
-        if ((mask & (1 << city)) == 0)
+        return graph[current_city][0];
+    }
+
+    // Return memoized result if available
+    if (dp[visited][current_city] != -1)
+    {
+        return dp[visited][current_city];
+    }
+
+    int min_cost = INF;
+
+    // Try visiting each unvisited city
+    for (int next_city = 0; next_city < N; next_city++)
+    {
+        if (!(visited & (1 << next_city)))
         {
-            int newAns = graph[pos][city] + tsp(mask | (1 << city), city);
-            if (newAns < ans)
-                ans = newAns;
+            int new_cost = graph[current_city][next_city] + tsp(visited | (1 << next_city), next_city);
+            min_cost = min(min_cost, new_cost);
         }
     }
-    return dp[mask][pos] = ans;
+
+    return dp[visited][current_city] = min_cost;
 }
 
 int main()
 {
-    for (int i = 0; i < (1 << N); i++)
-    {
-        for (int j = 0; j < N; j++)
-        {
-            dp[i][j] = -1;
-        }
-    }
-    cout << tsp(1, 0) << endl;
+    // Initialize DP table with -1 (uncomputed)
+    memset(dp, -1, sizeof(dp));
+
+    // Start with city 0 visited, at city 0
+    cout << "Minimum TSP cost: " << tsp(1, 0) << endl;
+
+    return 0;
 }

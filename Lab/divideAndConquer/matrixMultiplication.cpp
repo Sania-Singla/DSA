@@ -177,5 +177,4 @@ int main()
     vector<vector<int>> ans = multiply(mat1, mat2);
     cout << "result: " << endl;
     print(ans);
-    return 0;
 }

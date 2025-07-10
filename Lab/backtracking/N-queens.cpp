@@ -24,9 +24,8 @@ bool canPlace(int k, int i, vector<int> x)
     return true;
 }
 
-void NQ(int k, vector<int> &x)
+void NQ(int k, vector<int> &x, int n)
 {
-    int n = x.size();
     if (k < n)
     {
         for (int i = 0; i < n; i++)
@@ -42,9 +41,12 @@ void NQ(int k, vector<int> &x)
                     print(x);
                     // exit(0); // can't use return;
                 }
-                NQ(k + 1, x);
+                NQ(k + 1, x, n);
             }
-            // cout << "B" << endl;
+            // else
+            // {
+            //     cout << "B" << endl;
+            // }
         }
     }
 }
@@ -53,5 +55,5 @@ int main()
 {
     int n = 4;
     vector<int> x(n);
-    NQ(0, x);
+    NQ(0, x, n);
 }

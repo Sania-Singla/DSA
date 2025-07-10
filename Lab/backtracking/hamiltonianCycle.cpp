@@ -70,7 +70,7 @@ void HC(vector<vector<int>> graph, int n, vector<int> &x, int k)
 int main()
 {
     vector<vector<int>> graph = {
-        {0, 1, 2, 1, 0, 0},
+        {0, 1, 1, 1, 0, 0},
         {1, 0, 1, 0, 1, 0},
         {1, 1, 0, 0, 0, 1},
         {1, 0, 0, 0, 1, 1},

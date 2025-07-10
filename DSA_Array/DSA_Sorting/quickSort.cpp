@@ -105,7 +105,7 @@ void QS(vector<int> &arr, int s, int e)
     if (s < e)
     {
         int p = partition(arr, s, e); // O(n)
-        QS(arr, s, p - 1);            // T(n/2)
+        QS(arr, s, p - 1);            // T(n/2)s
         QS(arr, p + 1, e);            // T(n/2)
     }
 }

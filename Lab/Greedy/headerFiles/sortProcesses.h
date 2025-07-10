@@ -6,9 +6,9 @@
 #include "./process.h"
 using namespace std;
 
-void swap(int &a, int &b)
+void swap(Process &a, Process &b)
 {
-    int c = a;
+    Process c = a;
     a = b;
     b = c;
 }
@@ -21,11 +21,11 @@ int partition(vector<Process> &processes, int s, int e)
     // O(n)
     while (i <= j)
     {
-        while (i <= e && processes[i].AT < pivot.AT)
+        while (i <= e && processes[i].BT < pivot.BT)
         {
             i++;
         }
-        while (j >= s && processes[j].AT > pivot.AT)
+        while (j >= s && processes[j].BT > pivot.BT)
         {
             j--;
         }

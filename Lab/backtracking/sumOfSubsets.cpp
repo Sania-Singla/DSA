@@ -18,12 +18,10 @@ bool canInclude(int k, int m, int S, int R, vector<int> arr)
     {
         return false;
     }
-    else
-    {
-        return true;
-    }
+    return true;
 }
 
+// checking can we include kth value or not
 void SOS(int k, const int m, const int n, vector<int> arr, vector<int> &x, int S, int R)
 {
     if (k < n)
@@ -39,7 +37,6 @@ void SOS(int k, const int m, const int n, vector<int> arr, vector<int> &x, int S
             }
             SOS(k + 1, m, n, arr, x, S + arr[k], R - arr[k]);
         }
-
         x[k] = 0;
         SOS(k + 1, m, n, arr, x, S, R - arr[k]);
     }

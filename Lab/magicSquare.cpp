@@ -7,6 +7,19 @@
 #include <vector>
 using namespace std;
 
+void print(vector<vector<int>> arr)
+{
+    for (vector<int> row : arr)
+    {
+        for (int val : row)
+        {
+            cout << val << "\t";
+        }
+        cout << endl;
+    }
+}
+
+// O(n^2)
 void generateMagicSq(vector<vector<int>> &magicSq, int i, int j, int n, int currVal)
 {
     // Base case: stop when all numbers are placed (1 - n*n)
@@ -68,15 +81,6 @@ int main()
     magicSq[row][col] = 1;
 
     generateMagicSq(magicSq, row - 1, col - 1, n, 2);
-
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            cout << magicSq[i][j] << "\t";
-        }
-        cout << endl;
-    }
-
+    print(magicSq);
     return 0;
 }
