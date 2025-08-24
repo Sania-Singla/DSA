@@ -1,5 +1,6 @@
 #include <iostream>
 #include <math.h>
+#include <vector>
 using namespace std;
 
 int NOS(int n)
@@ -26,6 +27,5 @@ int main()
 {
     int n = 9;
     cout << NOS(n);
-
     return 0;
 }
