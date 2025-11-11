@@ -19,7 +19,7 @@ int knapsack(vector<int> &weights, vector<int> &profits, int n, int c, int i) //
         return 0;
     }
 
-    if (dp[i][c] != -1)
+    if (dp[i][c] != -1)  // because ho skta hai kuch inclusion/exclusion ka sequence bna ho and you get repitive capacity and at repitive index
     {
         return dp[i][c];
     }

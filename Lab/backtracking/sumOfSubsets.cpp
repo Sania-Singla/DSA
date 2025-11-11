@@ -14,7 +14,7 @@ void print(const vector<int> &x)
 
 bool canInclude(int k, int m, int S, int R, vector<int> arr)
 {
-    if (S + arr[k] > m || S + R < m)
+    if (S + arr[k] > m || S + R < m) // S + R < m is just an early pruning condition hence optional
     {
         return false;
     }
@@ -36,8 +36,8 @@ void SOS(int k, const int m, const int n, vector<int> arr, vector<int> &x, int S
                 // exit(0);
             }
             SOS(k + 1, m, n, arr, x, S + arr[k], R - arr[k]);
+            x[k] = 0;
         }
-        x[k] = 0;
         SOS(k + 1, m, n, arr, x, S, R - arr[k]);
     }
 }

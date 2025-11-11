@@ -17,7 +17,7 @@ bool canColor(int k, int i, vector<int> x, vector<vector<int>> rooms)
     for (int j = 0; j < k; j++)
     {
         // those who are neighbours(t) of k (having an edge with k) should be having x[t] = i
-        if (rooms[j][k] && x[j] == i)
+        if (rooms[k][j] && x[j] == i)
         {
             return false;
         }
