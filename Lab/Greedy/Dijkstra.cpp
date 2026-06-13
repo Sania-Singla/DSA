@@ -64,6 +64,8 @@ void SSSP(const vector<vector<int>> &cost, const int &source, const int &n, vect
     }
 }
 
+// dist (direct distances from source)= [0, 5, 1, INT_MAX]
+
 int main()
 {
     // directed & weighted graph's adjacency matrix (cost)
